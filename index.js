@@ -9,8 +9,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || `http://localhost:${PORT}/`;
 
-apiEndPoints(app);
-
 Shopify.Context.initialize({
     API_KEY: process.env.SHOPIFY_API_KEY,
     API_SECRET_KEY: process.env.SHOPIFY_API_SECRET,
@@ -19,6 +17,8 @@ Shopify.Context.initialize({
     HOST_SCHEME: HOST.split('://')[0],
     API_VERSION: LATEST_API_VERSION
 });
+
+apiEndPoints(app);
 
 app.listen(PORT, (err) => {
     if(err) {
