@@ -1,5 +1,5 @@
 export function apiEndPoints(app) {
-    app.get('/', async (req, res) => {
-        res.status(200).send({success: true});
+    app.post('/bundle/add', async (req, res) => {
+        res.status(200).send({success: req.body});
     });
 }
