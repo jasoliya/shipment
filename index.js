@@ -2,9 +2,12 @@ import express from 'express';
 import dotenv from 'dotenv';
 import { Shopify, LATEST_API_VERSION } from '@shopify/shopify-api';
 import { apiEndPoints } from './middleware/api.js';
+import cors from 'cors';
 
 dotenv.config();
 const app = express();
+
+app.use(cors());
 
 const PORT = process.env.PORT || 5000;
 const HOST = process.env.HOST || `http://localhost:${PORT}/`;
