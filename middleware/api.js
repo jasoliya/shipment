@@ -1,5 +1,5 @@
 import { Shopify } from '@shopify/shopify-api';
-import { Checkout } from '@shopify/shopify-api/dist/rest-resources/2022-07/index.js';
+//import { Checkout } from '@shopify/shopify-api/dist/rest-resources/2022-07/index.js';
 
 export function apiEndPoints(app) {
     app.post('/api/admin/checkout', async (req, res) => {

@@ -30,11 +30,12 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
-    
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
     }
+
+    console.log(order);
     
     const postData = JSON.stringify({
         "references": [
@@ -54,7 +55,7 @@ app.post('/order/get', async (req, res) => {
     const request = https.request(options, res => {
         res.on('data', d => {
             const result = JSON.parse(d.toString());
-            console.log(result);
+            
         });
     })
     request.on('error', error => {
