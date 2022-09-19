@@ -25,8 +25,14 @@ Shopify.Context.initialize({
 
 apiEndPoints(app);
 
+const isEmpty = (obj) => Object.keys(obj).length === 0;
+
 app.post('/order/get', async (req, res) => {
     const order = req.body;
+    if(isEmpty(order)) {
+        res.status(401).send('Cannot get order data');
+        return;
+    }
     console.log(order.email);
     res.status(200).send({success: true});
 });
