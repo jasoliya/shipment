@@ -2,7 +2,7 @@ import { Shopify } from '@shopify/shopify-api';
 import { Checkout } from '@shopify/shopify-api/dist/rest-resources/2022-07/index.js';
 
 export function apiEndPoints(app) {
-    app.get('/order/get', async (req, res) => {
+    app.post('/order/get', async (req, res) => {
         console.log('call order webhook');
         res.status(200).send({success: true});
     });
