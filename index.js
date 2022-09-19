@@ -1,4 +1,5 @@
 import express from 'express';
+import https from 'https';
 //import dotenv from 'dotenv';
 //import { Shopify, LATEST_API_VERSION } from '@shopify/shopify-api';
 //import { apiEndPoints } from './middleware/api.js';
@@ -29,11 +30,39 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
+    
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
     }
-    console.log(order.email);
+    
+    const postData = JSON.stringify({
+        "references": [
+            "348-16981",
+        ]
+    });
+
+    const options = {
+        hostname: 'inpostaradeski.mk',
+        path: '/api/v1/list_shipments',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y'
+        }
+    }
+    const request = https.request(options, res => {
+        res.on('data', d => {
+            const result = JSON.parse(d.toString());
+            console.log(result);
+        });
+    })
+    request.on('error', error => {
+        console.log(`Error: ${error}`);
+    });
+    request.write(postData);
+    request.end();
+
     res.status(200).send({success: true});
 });
 
