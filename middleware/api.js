@@ -3,7 +3,7 @@ import { Checkout } from '@shopify/shopify-api/dist/rest-resources/2022-07/index
 
 export function apiEndPoints(app) {
     app.post('/order/get', async (req, res) => {
-        console.log('call order webhook');
+        console.log('call order');
         res.status(200).send({success: true});
     });
     app.post('/api/admin/checkout', async (req, res) => {
