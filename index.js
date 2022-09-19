@@ -25,6 +25,12 @@ Shopify.Context.initialize({
 
 apiEndPoints(app);
 
+app.post('/order/get', async (req, res) => {
+    const order = req.body;
+    console.log(order.email);
+    res.status(200).send({success: true});
+});
+
 app.listen(PORT, (err) => {
     if(err) {
         console.log('Error in server setup')
