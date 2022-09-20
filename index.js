@@ -23,8 +23,6 @@ app.post('/order/get', async (req, res) => {
         res.status(401).send('Cannot get order data');
         return;
     }
-
-    console.log(order);
     
     const postData = JSON.stringify({
         "references": [
