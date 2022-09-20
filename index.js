@@ -1,8 +1,5 @@
 import express from 'express';
 import https from 'https';
-//import dotenv from 'dotenv';
-//import { Shopify, LATEST_API_VERSION } from '@shopify/shopify-api';
-//import { apiEndPoints } from './middleware/api.js';
 
 import cors from 'cors';
 
@@ -13,20 +10,12 @@ app.use(express.json());
 app.use(cors());
 
 const PORT = process.env.PORT || 5000;
-// const HOST = process.env.HOST || `http://localhost:${PORT}/`;
-
-// Shopify.Context.initialize({
-//     API_KEY: process.env.SHOPIFY_API_KEY,
-//     API_SECRET_KEY: process.env.SHOPIFY_API_SECRET,
-//     SCOPES: process.env.SCOPES.split(','),
-//     HOST_NAME: HOST.replace(/https?:\/\//,''),
-//     HOST_SCHEME: HOST.split('://')[0],
-//     API_VERSION: LATEST_API_VERSION
-// });
-
-// apiEndPoints(app);
 
 const isEmpty = (obj) => Object.keys(obj).length === 0;
+
+app.get('/', async (req, res) => {
+    res.status(200).send('Welcome to shipment api');
+});
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
