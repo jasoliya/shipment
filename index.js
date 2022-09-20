@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5000;
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.get('/', async (req, res) => {
+    console.log('ready to work');
     res.status(200).send('Welcome to shipment api');
 });
 
