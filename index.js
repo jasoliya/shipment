@@ -20,6 +20,9 @@ app.get('/', async (req, res) => {
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
+
+    console.log(order);
+
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
