@@ -14,15 +14,12 @@ const PORT = process.env.PORT || 5000;
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.get('/', async (req, res) => {
-    console.log('ready to work');
     res.status(200).send('Welcome to shipment api');
 });
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
-
-    console.log(order);
-
+   
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
@@ -46,7 +43,7 @@ app.post('/order/get', async (req, res) => {
     const request = https.request(options, res => {
         res.on('data', d => {
             const result = JSON.parse(d.toString());
-            
+            console.log(result);
         });
     })
     request.on('error', error => {
