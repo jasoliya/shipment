@@ -26,14 +26,26 @@ app.post('/order/get', async (req, res) => {
     }
     
     const postData = JSON.stringify({
-        "references": [
-            "348-16981",
-        ]
+        "receiver": {
+            "name": "Јоhn Doe",
+            "city": "Скопје",
+            "phone_number": "+389 71 236 456",
+            "address": "Address"
+        },
+        "note": "note",
+        "package_value": 550,
+        "number_packages": 1,
+        "weight": 2,
+        "height": 2,
+        "width": 2,
+        "length": 2,
+        "order_number": "#123ABC",
+        "shipping_payment_method": "П-Г"
     });
 
     const options = {
         hostname: 'inpostaradeski.mk',
-        path: '/api/v1/list_shipments',
+        path: '/api/v1/shipments',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
