@@ -16,11 +16,17 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 app.post('/order/get', async (req, res) => {
     const order = req.body;
 
+    console.log(order);
+    res.status(200).send({success: true});
+    return;
+
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
     }
+    
     let postData = {},shipping_payment_method = 'И-Г';
+
     postData.receiver = {
         "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
         "city": order.shipping_address.city,
