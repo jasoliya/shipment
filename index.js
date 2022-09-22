@@ -13,46 +13,48 @@ const PORT = process.env.PORT || 5000;
 
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
-app.get('/', async (req, res) => {
-    res.status(200).send('Welcome to shipment api');
-});
-
 app.post('/order/get', async (req, res) => {
     const order = req.body;
-   
+
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
     }
-    
-    const postData = JSON.stringify({
-        "references": [
-            "348-16981",
-        ]
-    });
 
-    const options = {
+    let postData = {},shipping_payment_method = 'И-Г';
+    postData.receiver = {
+        "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
+        "city": order.shipping_address.city,
+        "phone_number": order.shipping_address.phone,
+        "address": `${order.shipping_address1} ${order.shipping_address2}`
+    };
+    postData.package_value = order.subtotal_price_set.shop_money.amount;
+    postData.number_packages = 1;
+    postData.shipping_payment_method = shipping_payment_method;
+    postData.shipment_cost = order.total_shipment_price_set.shop_money.amount;
+    postData.order_number = order.order_number;
+    if(order.note) postData.note = order.note || 'Note';
+
+    const opt = {
         hostname: 'inpostaradeski.mk',
-        path: '/api/v1/list_shipments',
+        path: '/api/v1/shipments',
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y'
         }
     }
-    const request = https.request(options, res => {
-        res.on('data', d => {
+    const httpReq = https.request(opt, httpRes => {
+        httpRes.on('data', d => {
             const result = JSON.parse(d.toString());
-            console.log(result);
+            res.status(200).send(result);
         });
     })
-    request.on('error', error => {
-        console.log(`Error: ${error}`);
+    httpReq.on('error', error => {
+        res.status(500).send(error);
     });
-    request.write(postData);
-    request.end();
-
-    res.status(200).send({success: true});
+    httpReq.write(JSON.stringify(postData));
+    httpReq.end();
 });
 
 app.listen(PORT, (err) => {
