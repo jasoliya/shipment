@@ -25,7 +25,7 @@ app.post('/order/get', async (req, res) => {
         "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
         "city": order.shipping_address.city,
         "phone_number": order.shipping_address.phone,
-        "address": `${order.shipping_address1} ${order.shipping_address2}`
+        "address": `${order.shipping_address.address1} ${order.shipping_address.address2}`
     };
     postData.package_value = order.subtotal_price_set.shop_money.amount;
     postData.number_packages = 1;
@@ -34,8 +34,6 @@ app.post('/order/get', async (req, res) => {
     postData.order_number = order.order_number;
 
     if(order.note) postData.note = order.note || 'Note';
-
-    console.log(postData);
 
     const opt = {
         hostname: 'inpostaradeski.mk',
@@ -49,10 +47,12 @@ app.post('/order/get', async (req, res) => {
     const httpReq = https.request(opt, httpRes => {
         httpRes.on('data', d => {
             const result = JSON.parse(d.toString());
+            console.log(result);
             res.status(200).send(result);
         });
     })
     httpReq.on('error', error => {
+        console.log(error);
         res.status(500).send(error);
     });
     httpReq.write(JSON.stringify(postData));
