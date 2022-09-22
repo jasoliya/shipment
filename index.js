@@ -27,7 +27,7 @@ app.post('/order/get', async (req, res) => {
         "name": `${order.shipping_address.name} Test`,
         "city": 'Штип',
         "phone_number": order.shipping_address.phone,
-        "address": `${order.shipping_address.address1} ${order.shipping_address.address2}`
+        "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
     postData.package_value = order.subtotal_price;
     postData.number_packages = 1;
