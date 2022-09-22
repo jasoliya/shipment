@@ -16,10 +16,6 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 app.post('/order/get', async (req, res) => {
     const order = req.body;
 
-    console.log(order);
-    res.status(200).send({success: true});
-    return;
-
     if(isEmpty(order)) {
         res.status(401).send('Cannot get order data');
         return;
@@ -28,16 +24,16 @@ app.post('/order/get', async (req, res) => {
     let postData = {},shipping_payment_method = 'И-Г';
 
     postData.receiver = {
-        "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
+        "name": `${order.shipping_address.name}`,
         "city": order.shipping_address.city,
         "phone_number": order.shipping_address.phone,
         "address": `${order.shipping_address.address1} ${order.shipping_address.address2}`
     };
-    postData.package_value = order.subtotal_price_set.shop_money.amount;
+    postData.package_value = order.subtotal_price;
     postData.number_packages = 1;
     postData.shipping_payment_method = shipping_payment_method;
     postData.shipment_cost = order.total_shipping_price_set.shop_money.amount;
-    postData.order_number = order.order_number.toString();
+    postData.order_number = order.name;
 
     if(order.note) postData.note = order.note || 'Note';
 
