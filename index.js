@@ -20,7 +20,7 @@ app.post('/order/get', async (req, res) => {
         res.status(401).send('Cannot get order data');
         return;
     }
-
+    console.log(order);
     let postData = {},shipping_payment_method = 'И-Г';
     postData.receiver = {
         "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
