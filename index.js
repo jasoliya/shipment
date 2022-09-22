@@ -31,7 +31,7 @@ app.post('/order/get', async (req, res) => {
     postData.number_packages = 1;
     postData.shipping_payment_method = shipping_payment_method;
     postData.shipment_cost = order.total_shipping_price_set.shop_money.amount;
-    postData.order_number = order.order_number;
+    postData.order_number = order.order_number.toString();
 
     if(order.note) postData.note = order.note || 'Note';
 
@@ -47,12 +47,12 @@ app.post('/order/get', async (req, res) => {
     const httpReq = https.request(opt, httpRes => {
         httpRes.on('data', d => {
             const result = JSON.parse(d.toString());
-            console.log(result);
+            console.log('success ',result);
             res.status(200).send(result);
         });
     })
     httpReq.on('error', error => {
-        console.log(error);
+        console.log('error ',error);
         res.status(500).send(error);
     });
     httpReq.write(JSON.stringify(postData));
