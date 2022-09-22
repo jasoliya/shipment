@@ -24,8 +24,8 @@ app.post('/order/get', async (req, res) => {
     let postData = {},shipping_payment_method = 'И-Г';
 
     postData.receiver = {
-        "name": `${order.shipping_address.name}`,
-        "city": order.shipping_address.city,
+        "name": `${order.shipping_address.name} Test`,
+        "city": 'Штип',
         "phone_number": order.shipping_address.phone,
         "address": `${order.shipping_address.address1} ${order.shipping_address.address2}`
     };
