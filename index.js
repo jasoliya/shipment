@@ -32,7 +32,10 @@ app.post('/order/get', async (req, res) => {
     postData.shipping_payment_method = shipping_payment_method;
     postData.shipment_cost = order.total_shipping_price_set.shop_money.amount;
     postData.order_number = order.order_number;
+
     if(order.note) postData.note = order.note || 'Note';
+
+    console.log(postData);
 
     const opt = {
         hostname: 'inpostaradeski.mk',
