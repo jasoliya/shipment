@@ -20,7 +20,6 @@ app.post('/order/get', async (req, res) => {
         res.status(401).send('Cannot get order data');
         return;
     }
-    console.log(order);
     let postData = {},shipping_payment_method = 'И-Г';
     postData.receiver = {
         "name": `${order.shipping_address.name} ${order.shipping_address.last_name}`,
@@ -31,7 +30,7 @@ app.post('/order/get', async (req, res) => {
     postData.package_value = order.subtotal_price_set.shop_money.amount;
     postData.number_packages = 1;
     postData.shipping_payment_method = shipping_payment_method;
-    postData.shipment_cost = order.total_shipment_price_set.shop_money.amount;
+    postData.shipment_cost = order.total_shipping_price_set.shop_money.amount;
     postData.order_number = order.order_number;
     if(order.note) postData.note = order.note || 'Note';
 
