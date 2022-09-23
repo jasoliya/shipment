@@ -96,7 +96,7 @@
   },
   "total_shipping_price_set":{
      "shop_money":{
-        "amount":"10.00",
+        "amount":"0",
         "currency_code":"INR"
      },
      "presentment_money":{
@@ -106,7 +106,7 @@
   },
   "subtotal_price_set":{
      "shop_money":{
-        "amount":"0",
+        "amount":"50.00",
         "currency_code":"INR"
      },
      "presentment_money":{
