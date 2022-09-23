@@ -1,3 +1,4 @@
+import fs from 'fs';
 import express from 'express';
 import https from 'https';
 
@@ -14,7 +15,10 @@ const PORT = process.env.PORT || 5000;
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
-    const order = req.body;
+    const _order = req.body;
+
+    const fileData = fs.readFileSync('./sample-order.json');
+    const order = JSON.parse(fileData.toString());
 
     console.log(order);
 
