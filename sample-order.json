@@ -106,7 +106,7 @@
   },
   "subtotal_price_set":{
      "shop_money":{
-        "amount":"50.00",
+        "amount":"0",
         "currency_code":"INR"
      },
      "presentment_money":{
