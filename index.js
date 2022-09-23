@@ -22,10 +22,10 @@ app.post('/order/get', async (req, res) => {
 
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
-    const tags = order.tags.toLowerCase();
+    const tags = order.tags.toLowerCase().split(', ');
     let apiToken = null;
-    if(tags.indexOf('zdravko') >= 0) apiToken = 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y';
-    if(tags.indexOf('muppet') >= 0) apiToken = 'SFMyNTY.g2gDYgAABkRuBgC7eelpgwFiAAFRgA.95slglj5zg_kxToaK6EiCfxA_dodx7LRcUoHFuI_P1A';
+    if(tags.includes('zdravko')) apiToken = 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y';
+    if(tags.includes('muppet')) apiToken = 'SFMyNTY.g2gDYgAABkRuBgC7eelpgwFiAAFRgA.95slglj5zg_kxToaK6EiCfxA_dodx7LRcUoHFuI_P1A';
     if(!apiToken) return res.status(401).send('Shipment not found');
 
     let postData = {}, shipping_payment_method;
