@@ -70,7 +70,7 @@
   "tax_lines":[
      
   ],
-  "tags":"lasdl, ZDRAVKO",
+  "tags":"ZDRAVKO",
   "contact_email":"jon@doe.ca",
   "order_status_url":"https://codify-app.myshopify.com/58642464802/orders/123456abcd/authenticate?key=abcdefg",
   "presentment_currency":"INR",
@@ -100,7 +100,7 @@
         "currency_code":"INR"
      },
      "presentment_money":{
-        "amount":"10.00",
+        "amount":"0",
         "currency_code":"INR"
      }
   },
