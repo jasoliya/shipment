@@ -21,11 +21,13 @@ app.post('/order/get', async (req, res) => {
         return;
     }
     
+    console.log(typeof order.tags,order.tags);
+
     let postData = {},shipping_payment_method = 'И-Г';
 
     postData.receiver = {
-        "name": `${order.shipping_address.name} Test`,
-        "city": 'Штип',
+        "name": order.shipping_address.name,
+        "city": order.shipping_address.city,
         "phone_number": order.shipping_address.phone,
         "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
