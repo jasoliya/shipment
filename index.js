@@ -20,13 +20,14 @@ app.post('/order/get', async (req, res) => {
     const fileData = fs.readFileSync('./sample-order.json');
     const order = JSON.parse(fileData.toString());
 
-    if(isEmpty(order)) return res.status(401).send('Cannot get order data');
-    if(!order.tags) return res.status(401).send('Declined');
+    console.log(0);
+    if(isEmpty(order)) return res.status(401).send('Cannot get order data'); console.log(1);
+    if(!order.tags) return res.status(401).send('Declined'); console.log(2);
     const tags = order.tags.toLowerCase();
     const apiToken = null;
     if(tags.indexOf('zdravko') >= 0) apiToken = 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y';
     if(tags.indexOf('muppet') >= 0) apiToken = 'SFMyNTY.g2gDYgAABkRuBgC7eelpgwFiAAFRgA.95slglj5zg_kxToaK6EiCfxA_dodx7LRcUoHFuI_P1A';
-    if(!apiToken) return res.status(401).send('Shipment not found');
+    if(!apiToken) return res.status(401).send('Shipment not found'); console.log(3);
 
     let postData = {}, shipping_payment_method;
     const shippingAmount = parseInt(order.total_shipping_price_set.shop_money.amount);
