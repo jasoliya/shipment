@@ -16,6 +16,8 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 app.post('/order/get', async (req, res) => {
     const order = req.body;
 
+    console.log(order);
+
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
     const tags = order.tags.toLowerCase();
