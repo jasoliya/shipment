@@ -19,8 +19,6 @@ app.post('/order/get', async (req, res) => {
     const fileData = fs.readFileSync('./sample-order.json');
     const order = JSON.parse(fileData.toString());
 
-    console.log(order);
-
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
     const tags = order.tags.toLowerCase().split(', ');
