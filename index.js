@@ -37,7 +37,10 @@ app.post('/order/get', async (req, res) => {
         "phone_number": order.shipping_address.phone,
         "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
-    postData.package_value = order.subtotal_price;
+
+    let package_value = (order.financial_status == 'paid') ? "0" : order.subtotal_price
+
+    postData.package_value = package_value;
     postData.number_packages = 1;
     postData.shipping_payment_method = shipping_payment_method;
     postData.shipment_cost = "130";
