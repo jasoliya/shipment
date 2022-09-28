@@ -15,9 +15,7 @@ const PORT = process.env.PORT || 5000;
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
-    const _order = req.body;
-    const fileData = fs.readFileSync('./sample-order.json');
-    const order = JSON.parse(fileData.toString());
+    const order = req.body;
 
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
