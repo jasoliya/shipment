@@ -30,6 +30,7 @@ app.post('/order/get', async (req, res) => {
     
     if(tags.indexOf('zdravko') >= 0) shipping_payment_method = shippingAmount > 0 ? 'П-Г' : 'И-Г';
     if(tags.indexOf('muppet') >= 0)  shipping_payment_method = shippingAmount > 0 ? 'П-Ф' : 'И-Ф';
+    if(tags.indexOf('muppet') >= 0)  shipping_payment_method = order.financial_status == 'paid' ? 'И-Ф' : shipping_payment_method;
 
     postData.receiver = {
         "name": order.shipping_address.name,
