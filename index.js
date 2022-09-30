@@ -16,6 +16,8 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
+    let city = fs.readFileSync('city.json');
+    city = JSON.parse(city.toString());
 
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
@@ -32,9 +34,16 @@ app.post('/order/get', async (req, res) => {
     if(tags.indexOf('muppet') >= 0)  shipping_payment_method = shippingAmount > 0 ? 'П-Ф' : 'И-Ф';
     if(tags.indexOf('muppet') >= 0)  shipping_payment_method = order.financial_status == 'paid' ? 'И-Ф' : shipping_payment_method;
 
+    let city_name = order.shipping_address.city;
+
+    if(Object.values(city).indexOf(city_name) === -1) {
+        city_name = city[city_name.toLowerCase()];
+        if(typeof city_name === 'undefined') return res.status(401).send(`Shipment isn't available for your city`);
+    }
+
     postData.receiver = {
         "name": order.shipping_address.name,
-        "city": order.shipping_address.city,
+        "city": city_name,
         "phone_number": order.shipping_address.phone,
         "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
