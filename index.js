@@ -16,9 +16,11 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get', async (req, res) => {
     const order = req.body;
+    //let order = fs.readFileSync('sample-order.json');
+    //order = JSON.parse(order.toString());
     let city = fs.readFileSync('city.json');
     city = JSON.parse(city.toString());
-
+    
     if(isEmpty(order)) return res.status(401).send('Cannot get order data');
     if(!order.tags) return res.status(401).send('Declined');
     const tags = order.tags.toLowerCase().split(', ');
@@ -36,8 +38,10 @@ app.post('/order/get', async (req, res) => {
 
     let city_name = order.shipping_address.city;
 
+    console.log(`city before check ${city_name}`);
     if(Object.values(city).indexOf(city_name) === -1) {
         city_name = city[city_name.toLowerCase()];
+        console.log(`city after check ${city_name}`);
         if(typeof city_name === 'undefined') return res.status(401).send(`Shipment isn't available for your city`);
     }
 
@@ -58,6 +62,8 @@ app.post('/order/get', async (req, res) => {
 
     if(order.note) postData.note = order.note || 'Note';
 
+    console.log(order);
+    
     const opt = {
         hostname: 'inpostaradeski.mk',
         path: '/api/v1/shipments',
