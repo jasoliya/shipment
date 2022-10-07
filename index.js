@@ -62,7 +62,8 @@ app.post('/order/get', async (req, res) => {
 
     if(order.note) postData.note = order.note || 'Note';
 
-    return res.status(200).send({postData});
+    console.log(postData);
+    
     const opt = {
         hostname: 'inpostaradeski.mk',
         path: '/api/v1/shipments',
