@@ -38,10 +38,8 @@ app.post('/order/get', async (req, res) => {
 
     let city_name = order.shipping_address.city;
 
-    console.log(`city before check ${city_name}`);
     if(Object.values(city).indexOf(city_name) === -1) {
         city_name = city[city_name.toLowerCase()];
-        console.log(`city after check ${city_name}`);
         if(typeof city_name === 'undefined') return res.status(401).send(`Shipment isn't available for your city`);
     }
 
@@ -62,8 +60,6 @@ app.post('/order/get', async (req, res) => {
 
     if(order.note) postData.note = order.note || 'Note';
 
-    console.log(postData);
-    
     const opt = {
         hostname: 'inpostaradeski.mk',
         path: '/api/v1/shipments',
