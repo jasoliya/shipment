@@ -58,7 +58,7 @@ app.post('/order/get', async (req, res) => {
     postData.shipment_cost = "130";
     postData.order_number = order.name;
 
-    if(order.note) postData.note = order.note || 'Note';
+    //if(order.note) postData.note = order.note || 'Note';
 
     const opt = {
         hostname: 'inpostaradeski.mk',
