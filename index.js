@@ -16,24 +16,19 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/test/order/get', async (req, res) => {
     const order = req.body;
-    console.log(order);
-    res.status(200).send(order);
-});
-
-app.post('/order/get', async (req, res) => {
-    const order = req.body;
     //let order = fs.readFileSync('sample-order.json');
     //order = JSON.parse(order.toString());
+    console.log(order);
     let city = fs.readFileSync('city.json');
     city = JSON.parse(city.toString());
     
-    if(isEmpty(order)) return res.status(401).send('Cannot get order data');
-    if(!order.tags) return res.status(401).send('Declined');
+    if(isEmpty(order)) return res.status(200).send('Cannot get order data');
+    if(!order.tags) return res.status(200).send('Declined');
     const tags = order.tags.toLowerCase().split(', ');
     let apiToken = null;
     if(tags.includes('zdravko')) apiToken = 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y';
     if(tags.includes('muppet')) apiToken = 'SFMyNTY.g2gDYgAABkRuBgC7eelpgwFiAAFRgA.95slglj5zg_kxToaK6EiCfxA_dodx7LRcUoHFuI_P1A';
-    if(!apiToken) return res.status(401).send('Shipment not found');
+    if(!apiToken) return res.status(200).send('Shipment not found');
 
     let postData = {}, shipping_payment_method;
     const shippingAmount = parseInt(order.total_shipping_price_set.shop_money.amount);
@@ -46,7 +41,55 @@ app.post('/order/get', async (req, res) => {
 
     if(Object.values(city).indexOf(city_name) === -1) {
         city_name = city[city_name.toLowerCase()];
-        if(typeof city_name === 'undefined') return res.status(401).send(`Shipment isn't available for your city`);
+        if(typeof city_name === 'undefined') return res.status(200).send(`Shipment isn't available for your city`);
+    }
+
+    postData.receiver = {
+        "name": order.shipping_address.name,
+        "city": city_name,
+        "phone_number": order.shipping_address.phone,
+        "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
+    };
+
+    let package_value = order.financial_status === 'paid' ? "0" : order.subtotal_price;
+
+    postData.package_value = package_value;
+    postData.number_packages = 1;
+    postData.shipping_payment_method = shipping_payment_method;
+    postData.shipment_cost = "130";
+    postData.order_number = order.name;
+
+    //if(order.note) postData.note = order.note || 'Note';
+    res.status(200).send({postData});
+});
+
+app.post('/order/get', async (req, res) => {
+    const order = req.body;
+    //let order = fs.readFileSync('sample-order.json');
+    //order = JSON.parse(order.toString());
+    let city = fs.readFileSync('city.json');
+    city = JSON.parse(city.toString());
+    
+    if(isEmpty(order)) return res.status(200).send('Cannot get order data');
+    if(!order.tags) return res.status(200).send('Declined');
+    const tags = order.tags.toLowerCase().split(', ');
+    let apiToken = null;
+    if(tags.includes('zdravko')) apiToken = 'SFMyNTY.g2gDYgAAAVxuBgBqUnRUgwFiAAFRgA.4y6kc1PZMhv1oTb0mt4Wxm0QN4ZCO9IWaszBaiT_74Y';
+    if(tags.includes('muppet')) apiToken = 'SFMyNTY.g2gDYgAABkRuBgC7eelpgwFiAAFRgA.95slglj5zg_kxToaK6EiCfxA_dodx7LRcUoHFuI_P1A';
+    if(!apiToken) return res.status(200).send('Shipment not found');
+
+    let postData = {}, shipping_payment_method;
+    const shippingAmount = parseInt(order.total_shipping_price_set.shop_money.amount);
+    
+    if(tags.includes('zdravko')) shipping_payment_method = shippingAmount > 0 ? 'П-Г' : 'И-Г';
+    if(tags.includes('muppet'))  shipping_payment_method = shippingAmount > 0 ? 'П-Ф' : 'И-Ф';
+    if(tags.includes('muppet'))  shipping_payment_method = order.financial_status == 'paid' ? 'И-Ф' : shipping_payment_method;
+
+    let city_name = order.shipping_address.city;
+
+    if(Object.values(city).indexOf(city_name) === -1) {
+        city_name = city[city_name.toLowerCase()];
+        if(typeof city_name === 'undefined') return res.status(200).send(`Shipment isn't available for your city`);
     }
 
     postData.receiver = {
@@ -84,7 +127,7 @@ app.post('/order/get', async (req, res) => {
     })
     httpReq.on('error', error => {
         console.log('error ',error);
-        res.status(500).send(error);
+        res.status(200).send(error);
     });
     httpReq.write(JSON.stringify(postData));
     httpReq.end();
