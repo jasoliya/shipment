@@ -16,6 +16,7 @@ const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/test/order/get', async (req, res) => {
     const order = req.body;
+    console.log(order);
     res.status(200).send(order);
 });
 
