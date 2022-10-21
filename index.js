@@ -15,6 +15,7 @@ const PORT = process.env.PORT || 5000;
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
 app.post('/order/get/test', async (req, res) => {
+    console.log(req.body);
     res.status(200).send(req.body);
 });
 
