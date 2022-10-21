@@ -14,6 +14,10 @@ const PORT = process.env.PORT || 5000;
 
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
+app.post('/order/get/test', async (req, res) => {
+    res.status(200).send(req.body);
+});
+
 app.post('/order/get', async (req, res) => {
     const order = req.body;
     //let order = fs.readFileSync('sample-order.json');
