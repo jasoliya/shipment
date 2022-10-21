@@ -50,7 +50,7 @@ app.post('/order/get', async (req, res) => {
         "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
 
-    let subtotal_price = (order.current_subtotal_price === undefined) ? order.subtotal_price : order.current_subtotal_price;
+    let subtotal_price = (typeof order.current_subtotal_price === 'undefined') ? order.subtotal_price : order.current_subtotal_price;
     let package_value = order.financial_status === 'paid' ? "0" : subtotal_price;
 
     postData.package_value = package_value;
