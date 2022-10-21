@@ -14,11 +14,6 @@ const PORT = process.env.PORT || 5000;
 
 const isEmpty = (obj) => Object.keys(obj).length === 0;
 
-app.post('/order/get/test', async (req, res) => {
-    console.log(req.body);
-    res.status(200).send(req.body);
-});
-
 app.post('/order/get', async (req, res) => {
     const order = req.body;
     //let order = fs.readFileSync('sample-order.json');
@@ -55,7 +50,8 @@ app.post('/order/get', async (req, res) => {
         "address": `${order.shipping_address.address1}${order.shipping_address.address2 ? ' '+order.shipping_address.address2 : ''}`
     };
 
-    let package_value = order.financial_status === 'paid' ? "0" : order.subtotal_price;
+    let subtotal_price = order.current_subtotal_price ?? order.subtotal_price;
+    let package_value = order.financial_status === 'paid' ? "0" : subtotal_price;
 
     postData.package_value = package_value;
     postData.number_packages = 1;
