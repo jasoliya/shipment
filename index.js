@@ -70,19 +70,25 @@ app.post('/order/get', async (req, res) => {
             'Authorization': apiToken
         }
     }
-    const httpReq = https.request(opt, httpRes => {
-        httpRes.on('data', d => {
-            const result = JSON.parse(d.toString());
-            console.log('success ',result);
-            res.status(200).send(result);
+    try {
+        const httpReq = https.request(opt, httpRes => {
+            httpRes.on('data', d => {
+                const result = JSON.parse(d.toString());
+                console.log('success ',result);
+                res.status(200).send(result);
+            });
+        })
+        httpReq.on('error', error => {
+            console.log('error ',error);
+            res.status(200).send(error);
         });
-    })
-    httpReq.on('error', error => {
-        console.log('error ',error);
-        res.status(200).send(error);
-    });
-    httpReq.write(JSON.stringify(postData));
-    httpReq.end();
+        httpReq.write(JSON.stringify(postData));
+        httpReq.end();
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send('error: ',error.message);
+    }
+    
 });
 
 app.listen(PORT, (err) => {
