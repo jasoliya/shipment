@@ -79,14 +79,14 @@ app.post('/order/get', async (req, res) => {
             });
         })
         httpReq.on('error', error => {
-            console.log('error ',error);
-            res.status(200).send(error);
+            console.log('error ', error);
+            res.status(200).send({'error': error});
         });
         httpReq.write(JSON.stringify(postData));
         httpReq.end();
     } catch (error) {
-        console.log(error.message);
-        res.status(500).send('error: ',error.message);
+        console.log('error: ',error.message);
+        res.status(500).send({'error': error.message});
     }
 });
 
