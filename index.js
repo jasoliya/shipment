@@ -53,6 +53,8 @@ app.post('/order/get', async (req, res) => {
     let subtotal_price = (typeof order.current_subtotal_price === 'undefined') ? order.subtotal_price : order.current_subtotal_price;
     let package_value = order.financial_status === 'paid' ? "0" : subtotal_price;
 
+    postData.shipment_type = 'Пакети';
+    postData.shipment_type_value = '1';
     postData.package_value = package_value;
     postData.number_packages = 1;
     postData.shipping_payment_method = shipping_payment_method;
@@ -73,6 +75,7 @@ app.post('/order/get', async (req, res) => {
     try {
         const httpReq = https.request(opt, httpRes => {
             httpRes.on('data', d => {
+                console.log('d ',d);
                 const result = JSON.parse(d.toString());
                 console.log('success ',result);
                 res.status(200).send(result);
