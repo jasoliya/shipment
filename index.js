@@ -64,7 +64,7 @@ app.post('/order/get', async (req, res) => {
     //if(order.note) postData.note = order.note || 'Note';
 
     const opt = {
-        hostname: 'inpostaradeski.mk',
+        hostname: 'app.inpostaradeski.mk',
         path: '/api/v1/shipments',
         method: 'POST',
         headers: {
@@ -75,8 +75,6 @@ app.post('/order/get', async (req, res) => {
     try {
         const httpReq = https.request(opt, httpRes => {
             httpRes.on('data', d => {
-                console.log('d ',d);
-                console.log('to string ',d.toString());
                 const result = JSON.parse(d.toString());
                 console.log('success ',result);
                 res.status(200).send(result);
