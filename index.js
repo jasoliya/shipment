@@ -76,6 +76,7 @@ app.post('/order/get', async (req, res) => {
         const httpReq = https.request(opt, httpRes => {
             httpRes.on('data', d => {
                 console.log('d ',d);
+                console.log('to string ',d.toString());
                 const result = JSON.parse(d.toString());
                 console.log('success ',result);
                 res.status(200).send(result);
